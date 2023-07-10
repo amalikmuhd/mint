@@ -4,10 +4,10 @@
 
 /* dropdown container styles */
 .dropdownContainer {
-  @apply p-20 bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-1/2 z-10 flex justify-center items-center flex-col;
+  @apply bg-white fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-1/2 z-10 flex justify-center items-center flex-col  lg:w-1/5;
 }
 .dropdownInnerContainer {
-  @apply p-20 w-full h-full flex rounded-lg flex-col overflow-auto;
+  @apply p-10  w-full h-full flex rounded-lg flex-col overflow-auto;
 }
 
 /* dropdown container styles end*/
