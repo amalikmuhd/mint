@@ -29,20 +29,20 @@ const App = () => {
   /**
    *  api calls from the hooks
    */
-  const { data: tickerData, error: tickerError, loading: tickerLoading, request: tickerRequest } = useFetchTicker();
-  const { data: tradeData, error: tradeError, loading: tradeLoading, request: tradeRequest } = useFetchTrade();
-  const { data: candleData, error: candleError, loading: candleLoading, request: candleRequest } = useFetchCandles();
-  const { data: symbolData, error: symbolDataError, loading: symbolDataLoading, request: symbolDataRequest } = useFetchSymbols();
+  const ticker = useFetchTicker();
+  const trades = useFetchTrade();
+  const candle = useFetchCandles();
+  const symbol = useFetchSymbols();
 
   /**
    *  the symbolDataRequest is independent that pass the data to the dependent functions (tickerRequest, candleRequest,tradeRequest,setSelectedData)
    */
   // call fetchSymbols fun
   useEffect(() => {
-    symbolDataRequest((data) => {
-      tickerRequest(data[0]);
-      candleRequest(data[0]);
-      tradeRequest(data[0]);
+    symbol.request((data) => {
+      ticker.request(data[0]);
+      candle.request(data[0]);
+      trades.request(data[0]);
       setSelectedData(data[0]);
     });
     // eslint-disable-next-line
@@ -54,9 +54,9 @@ const App = () => {
    */
   const onSelectChange = (data) => {
     setSelectedData(data);
-    tickerRequest(data);
-    tradeRequest(data);
-    candleRequest(data);
+    ticker.request(data);
+    trades.request(data);
+    candle.request(data);
   };
 
   return (
@@ -65,26 +65,26 @@ const App = () => {
      */
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-8 h-full">
       <div className="h-full rounded-lg bg-gray-100">
-        <CandleChart data={candleData} error={candleError} loading={candleLoading} />
+        <CandleChart data={candle.data} error={candle.error} loading={candle.loading} />
       </div>
       <div className="h-full rounded-lg bg-gray-100">
         <Ticker
-          data={tickerData}
-          error={tickerError}
-          loading={tickerLoading}
+          data={ticker.data}
+          error={ticker.error}
+          loading={ticker.loading}
           selectedData={selectedData}
           visible={visible}
           setVisible={setVisible}
         />
-        <Trades data={tradeData} error={tradeError} loading={tradeLoading} />
+        <Trades data={trades.data} error={trades.error} loading={trades.loading} />
       </div>
       <Dropdown
         visible={visible}
         setVisible={setVisible}
-        data={symbolData}
-        loading={symbolDataLoading}
+        data={symbol.data}
+        loading={symbol.loading}
         onSelectChange={onSelectChange}
-        error={symbolDataError}
+        error={symbol.error}
       />
     </div>
   );
